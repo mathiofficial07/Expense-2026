@@ -24,6 +24,11 @@ const GoogleAuthButton = ({ onSuccess, onError }) => {
                 }
             } catch (err) {
                 console.error('Google Auth Error:', err);
+                if (setError) {
+                    const backendError = err.response?.data?.error;
+                    const message = err.response?.data?.message || 'Google Login failed';
+                    setError(backendError ? `${message}: ${backendError}` : message);
+                }
                 if (onError) onError(err);
             }
         },

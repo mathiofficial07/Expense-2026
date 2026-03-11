@@ -27,7 +27,9 @@ const Register = () => {
       navigate('/dashboard', { replace: true });
     } catch (err) {
       console.error('Registration error:', err);
-      setError('Error during registration. Using offline mode.');
+      const backendError = err.response?.data?.error;
+      const message = err.response?.data?.message || 'Error during registration. Please try again.';
+      setError(backendError ? `${message}: ${backendError}` : message);
     } finally {
       setLoading(false);
     }
@@ -80,7 +82,7 @@ const Register = () => {
               <Typography variant="body2" color="text.secondary">OR</Typography>
             </Divider>
 
-            <GoogleAuthButton />
+            <GoogleAuthButton setError={setError} />
             <Typography variant="body2" align="center">
               Already have an account?{' '}
               <Link component={RouterLink} to="/login" variant="body2">

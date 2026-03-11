@@ -28,7 +28,9 @@ const Login = () => {
       navigate(to, { replace: true });
     } catch (err) {
       console.error('Login error:', err);
-      setError('Invalid email or password');
+      const backendError = err.response?.data?.error;
+      const message = err.response?.data?.message || 'Invalid email or password';
+      setError(backendError ? `${message}: ${backendError}` : message);
       setLoading(false);
     }
   };
@@ -70,7 +72,7 @@ const Login = () => {
               <Typography variant="body2" color="text.secondary">OR</Typography>
             </Divider>
 
-            <GoogleAuthButton />
+            <GoogleAuthButton setError={setError} />
             <Typography variant="body2" align="center">
               Don't have an account?{' '}
               <Link component={RouterLink} to="/register" variant="body2">

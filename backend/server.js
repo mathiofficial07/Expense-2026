@@ -11,6 +11,13 @@ import userRoutes from './src/routes/users.js';
 
 dotenv.config();
 
+const requiredEnv = ['MONGO_URI', 'JWT_SECRET', 'GOOGLE_CLIENT_ID'];
+requiredEnv.forEach(env => {
+  if (!process.env[env]) {
+    console.error(`CRITICAL WARNING: Environment variable ${env} is missing!`);
+  }
+});
+
 const app = express();
 
 // Middleware
