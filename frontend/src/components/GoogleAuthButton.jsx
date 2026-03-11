@@ -2,7 +2,7 @@ import React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Button } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
-import axios from 'axios';
+import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ const GoogleAuthButton = ({ onSuccess, onError }) => {
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             try {
-                const res = await axios.post('http://localhost:5000/api/auth/google-login', {
+                const res = await api.post('/auth/google-login', {
                     token: tokenResponse.access_token,
                 });
 
